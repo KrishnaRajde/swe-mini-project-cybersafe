@@ -1,92 +1,102 @@
-/* CyberSafe Project Stylesheet - Lime Spark (#B6FF2E) & Graphite (#23262F) Theme */
 
-/* General Page Styling */
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #181A20;
-  color: #E2E8F0;
-  font-family: Arial, sans-serif;
+  background-color: #F6F5EF;
+  color: #1C211E;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  line-height: 1.5;
   margin: 0;
   padding: 0;
 }
 
-/* Navbar Tabs */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid #BDB9AE;
+  outline-offset: 2px;
+}
+
 .nav-tab {
-  transition: all 0.2s ease-in-out;
   border-bottom: 2px solid transparent;
-  color: #94A3B8;
+  color: #5F665F;
 }
 
 .nav-tab:hover {
-  color: #B6FF2E;
+  color: #1C211E;
 }
 
 .nav-tab.active {
-  color: #B6FF2E !important;
-  font-weight: 700 !important;
-  border-bottom: 2px solid #B6FF2E !important;
-  background-color: rgba(182, 255, 46, 0.1);
+  color: #1C211E !important;
+  border-bottom: 2px solid #205C43 !important;
+  border-radius: 0;
 }
 
-/* Card Boxes */
 .cyber-box {
-  background-color: #23262F;
-  border: 1px solid #323743;
-  border-radius: 12px;
-  color: #E2E8F0;
+  background-color: #FFFFFF;
+  border: 1px solid #E4E1D8;
+  border-radius: 8px;
+  color: #1C211E;
 }
 
-/* Common Buttons */
 .btn-green, .btn-lime {
-  background-color: #B6FF2E;
-  color: #23262F;
-  font-weight: bold;
+  background-color: #205C43;
+  color: #FFFFFF;
+  font-weight: 600;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.15s;
 }
 
 .btn-green:hover, .btn-lime:hover {
-  background-color: #9FE61B;
-  box-shadow: 0 0 12px rgba(182, 255, 46, 0.35);
-  color: #181A20;
+  background-color: #184734;
+  color: #FFFFFF;
 }
 
-.btn-outline {
-  background: transparent;
-  color: #B6FF2E;
-  border: 1px solid #B6FF2E;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-outline:hover {
-  background-color: #B6FF2E;
-  color: #23262F;
-}
-
+.btn-outline,
 .btn-outline-green {
-  background: transparent;
-  color: #B6FF2E;
-  border: 1px solid #B6FF2E;
-  font-weight: bold;
+  background: #FFFFFF;
+  color: #205C43;
+  border: 1px solid #205C43;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.15s;
 }
 
+.btn-outline:hover,
 .btn-outline-green:hover {
-  background-color: #B6FF2E;
-  color: #23262F;
+  background-color: #E6EFE9;
+  color: #184734;
 }
 
-/* ===================================================
-   CyberSafe Certified ID Card Styling
-   Aspect Ratio: 85mm x 54mm (Credit card / ID card standard)
-   =================================================== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  background-color: #FFFFFF !important;
+  color: #1C211E !important;
+  border-color: #E4E1D8 !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #BDB9AE !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 
 .id-card-wrapper {
   display: flex;
@@ -99,12 +109,12 @@ body {
   width: 480px;
   max-width: 100%;
   aspect-ratio: 85 / 54;
-  background: linear-gradient(135deg, #23262F 0%, #16181E 100%);
-  border: 2px solid #B6FF2E;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(182, 255, 46, 0.2);
+  background: #FFFFFF;
+  border: 1px solid #E4E1D8;
+  border-top: 8px solid #205C43;
+  border-radius: 12px;
   padding: 20px;
-  color: #FFFFFF;
+  color: #1C211E;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -112,39 +122,36 @@ body {
   position: relative;
 }
 
-/* ID Card Header */
 .id-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(182, 255, 46, 0.3);
+  border-bottom: 1px solid #E4E1D8;
   padding-bottom: 10px;
 }
 
 .id-header-title {
   font-size: 15px;
   font-weight: bold;
-  color: #B6FF2E;
+  color: #205C43;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .id-header-sub {
   font-size: 10px;
-  color: #94A3B8;
+  color: #5F665F;
   letter-spacing: 0.5px;
 }
 
 .id-chip {
   width: 32px;
   height: 24px;
-  background: linear-gradient(135deg, #B6FF2E, #78A816);
-  border: 1px solid #B6FF2E;
+  background: #D9C27A;
+  border: 1px solid #BFA75F;
   border-radius: 4px;
-  box-shadow: 0 0 6px rgba(182, 255, 46, 0.3);
 }
 
-/* ID Card Middle / Body */
 .id-card-body {
   display: flex;
   align-items: center;
@@ -157,13 +164,12 @@ body {
   height: 80px;
   min-width: 80px;
   border-radius: 50%;
-  border: 2px solid #B6FF2E;
+  border: 2px solid #205C43;
   overflow: hidden;
-  background-color: #181A20;
+  background-color: #F6F5EF;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(182, 255, 46, 0.25);
 }
 
 .id-photo img {
@@ -179,22 +185,22 @@ body {
 .id-name {
   font-size: 17px;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #1C211E;
   margin-bottom: 4px;
 }
 
 .id-number {
   font-size: 12px;
-  color: #B6FF2E;
-  font-family: monospace;
+  color: #205C43;
+  font-family: "IBM Plex Mono", monospace;
   margin-bottom: 6px;
 }
 
 .id-badge {
   display: inline-block;
-  background: rgba(182, 255, 46, 0.12);
-  border: 1px solid #B6FF2E;
-  color: #B6FF2E;
+  background: #E6EFE9;
+  border: 1px solid #C9DDD0;
+  color: #205C43;
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 10px;
@@ -214,27 +220,24 @@ body {
 
 .id-score-label {
   font-size: 9px;
-  color: #94A3B8;
+  color: #5F665F;
   text-transform: uppercase;
 }
 
-/* Score Colors */
-.score-green { color: #B6FF2E; }
-.score-yellow { color: #FBBF24; }
-.score-red { color: #F87171; }
+.score-green { color: #205C43; }
+.score-yellow { color: #B7791F; }
+.score-red { color: #B42318; }
 
-/* ID Card Footer */
 .id-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(182, 255, 46, 0.3);
+  border-top: 1px solid #E4E1D8;
   padding-top: 8px;
   font-size: 10px;
-  color: #94A3B8;
+  color: #5F665F;
 }
 
-/* Print Only CSS */
 @media print {
   body * {
     visibility: hidden;
@@ -258,39 +261,16 @@ body {
   #idCard {
     width: 85mm !important;
     height: 54mm !important;
-    box-shadow: none !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 }
 
-/* Form Controls dark theme */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea,
-select {
-  background-color: #181A20 !important;
-  color: #FFFFFF !important;
-  border-color: #323743 !important;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-textarea:focus,
-select:focus {
-  border-color: #4B5563 !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-/* Header button styles */
 header .btn-green {
-  background-color: #B6FF2E;
-  color: #23262F;
+  background-color: #205C43;
+  color: #FFFFFF;
 }
 
 header .btn-green:hover {
-  background-color: #9FE61B;
+  background-color: #184734;
 }

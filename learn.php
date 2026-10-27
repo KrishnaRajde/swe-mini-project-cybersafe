@@ -1,7 +1,19 @@
 <?php
-// CyberSafe - Safety Tips (Lime Spark & Graphite Theme with Lucide SVG Icons)
 include "includes/db.php";
+include "includes/modules.php";
 check_login();
+
+$user_id = (int) $_SESSION['user_id'];
+
+if (isset($_POST['complete_learn']) && module_csrf_valid($_POST['csrf'] ?? null)) {
+    mark_module_complete($conn, $user_id, "learn");
+    header("Location: learn.php#learn-complete");
+    exit;
+}
+
+$progress = get_module_progress($conn, $user_id);
+$learn_done = $progress['modules']['learn']['done'];
+
 $title = "Safety Tips";
 include "includes/header.php";
 
@@ -70,44 +82,36 @@ $tipsList = [
 ?>
 
 <div class="max-w-4xl mx-auto">
-  <!-- Page Header -->
   <div class="mb-8 text-center sm:text-left">
-    <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center justify-center sm:justify-start gap-2.5">
-      <div class="w-8 h-8 rounded-lg bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E]">
-        <i data-lucide="shield-check" class="w-5 h-5"></i>
-      </div>
-      <span>Cyber Safety <span class="text-[#B6FF2E]">Tips</span></span>
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#1C211E] mb-2 flex items-center justify-center sm:justify-start gap-2.5">
+      <span>Cyber Safety Tips</span>
     </h1>
-    <p class="text-sm text-[#94A3B8]">
+    <p class="text-sm text-[#5F665F]">
       Simple, practical guidelines to keep your accounts and personal data safe online.
     </p>
   </div>
 
-  <!-- Tips Cards Grid -->
   <div class="grid md:grid-cols-2 gap-5 mb-10">
     <?php foreach ($tipsList as $tip) { ?>
-      <div class="cyber-box rounded-xl p-5 flex flex-col justify-between border border-[#323743]">
+      <div class="cyber-box rounded-xl p-5 flex flex-col justify-between border border-[#E4E1D8]">
         <div>
           <div class="flex items-center gap-2.5 mb-3">
-            <div class="w-9 h-9 rounded-xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E] shrink-0">
-              <i data-lucide="<?php echo $tip['icon']; ?>" class="w-4 h-4"></i>
-            </div>
-            <h2 class="text-base font-bold text-white"><?php echo $tip['title']; ?></h2>
+            <h2 class="text-base font-bold text-[#1C211E]"><?php echo $tip['title']; ?></h2>
           </div>
-          <p class="text-xs text-[#94A3B8] leading-relaxed mb-4">
+          <p class="text-xs text-[#5F665F] leading-relaxed mb-4">
             <?php echo $tip['desc']; ?>
           </p>
         </div>
 
-        <div class="bg-[#181A20] rounded-lg p-3.5 border border-[#323743] text-xs">
-          <strong class="text-[#B6FF2E] block mb-2 font-semibold flex items-center gap-1.5">
+        <div class="bg-[#F6F5EF] rounded-lg p-3.5 border border-[#E4E1D8] text-xs">
+          <strong class="text-[#205C43] block mb-2 font-semibold flex items-center gap-1.5">
             <i data-lucide="check" class="w-3.5 h-3.5"></i>
             <span>Best Practices:</span>
           </strong>
-          <ul class="space-y-1.5 text-[#E2E8F0]">
+          <ul class="space-y-1.5 text-[#1C211E]">
             <?php foreach ($tip['points'] as $pt) { ?>
               <li class="flex items-start gap-2">
-                <span class="text-[#B6FF2E] text-xs mt-0.5">&bull;</span>
+                <span class="text-[#205C43] text-xs mt-0.5">&bull;</span>
                 <span><?php echo $pt; ?></span>
               </li>
             <?php } ?>
@@ -117,13 +121,35 @@ $tipsList = [
     <?php } ?>
   </div>
 
-  <!-- Bottom CTA -->
-  <div class="cyber-box rounded-xl p-6 text-center border-t-2 border-t-[#B6FF2E] border border-[#323743]">
-    <h3 class="text-base font-bold text-white mb-1">Want to test what you know?</h3>
-    <p class="text-xs text-[#94A3B8] mb-4">Take our quick 10-question cyber quiz to see how cyber-aware you are.</p>
-    <a href="quiz.php" class="btn-green py-2.5 px-6 rounded-lg text-xs font-bold inline-flex items-center gap-2 shadow-lg">
+  <div id="learn-complete" class="cyber-box rounded-xl p-5 mb-6 border border-[#E4E1D8] flex flex-col sm:flex-row sm:items-center justify-between gap-4 scroll-mt-24">
+    <div>
+      <h3 class="text-sm font-bold text-[#1C211E] mb-1 flex items-center gap-2"> <span><?php echo $learn_done ? 'Safety Tips module completed' : 'Finished reading all the tips?'; ?></span>
+      </h3>
+      <p class="text-xs text-[#5F665F]">
+        <?php echo $learn_done ? 'Great work! This module now counts towards your ID card.' : 'Mark this module as completed to add it to your progress.'; ?>
+      </p>
+    </div>
+    <?php if ($learn_done) { ?>
+      <span class="px-4 py-2 rounded-lg text-xs font-bold text-[#205C43] border border-[#C9DDD0] bg-[#E6EFE9] flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+        <span>Completed</span>
+      </span>
+    <?php } else { ?>
+      <form method="post" class="shrink-0">
+        <input type="hidden" name="csrf" value="<?php echo htmlspecialchars(module_csrf_token()); ?>">
+        <button type="submit" name="complete_learn" class="btn-green py-2.5 px-5 rounded-lg text-xs font-bold inline-flex items-center gap-2">
+          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+          <span>Mark as Completed</span>
+        </button>
+      </form>
+    <?php } ?>
+  </div>
+
+  <div class="cyber-box rounded-xl p-6 text-center border-t-2 border-t-[#205C43] border border-[#E4E1D8]">
+    <h3 class="text-base font-bold text-[#1C211E] mb-1">Want to test what you know?</h3>
+    <p class="text-xs text-[#5F665F] mb-4">Take our quick 10-question cyber quiz to see how cyber-aware you are.</p>
+    <a href="quiz.php" class="btn-green py-2.5 px-6 rounded-lg text-xs font-bold inline-flex items-center gap-2">
       <span>Start the Quiz</span>
-      <i data-lucide="arrow-right" class="w-4 h-4"></i>
     </a>
   </div>
 </div>

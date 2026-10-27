@@ -1,5 +1,6 @@
 <?php
 include "includes/db.php";
+include "includes/modules.php";
 check_login();
 
 $questions = [
@@ -120,12 +121,14 @@ if (isset($_POST['submit'])) {
 
     $total = count($questions);
 
-    // Save quiz_score to users table
     if (isset($_SESSION['user_id'])) {
         $uid = (int) $_SESSION['user_id'];
         $updateStmt = mysqli_prepare($conn, "UPDATE users SET quiz_score = ? WHERE user_id = ?");
         mysqli_stmt_bind_param($updateStmt, "ii", $score, $uid);
-        mysqli_stmt_execute($updateStmt);
+
+        if (mysqli_stmt_execute($updateStmt)) {
+            mark_module_complete($conn, $uid, "quiz");
+        }
     }
 }
 
@@ -134,40 +137,29 @@ include "includes/header.php";
 ?>
 
 <div class="max-w-3xl mx-auto">
-  <!-- Header -->
   <div class="mb-6 text-center sm:text-left">
-    <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center justify-center sm:justify-start gap-2.5">
-      <div class="w-8 h-8 rounded-lg bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E]">
-        <i data-lucide="help-circle" class="w-5 h-5"></i>
-      </div>
-      <span>Cyber Security <span class="text-[#B6FF2E]">Quiz</span></span>
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#1C211E] mb-2 flex items-center justify-center sm:justify-start gap-2.5">
+      <span>Cyber Security Quiz</span>
     </h1>
-    <p class="text-sm text-[#94A3B8]">
-      10 quick questions to test how well you can spot threats and protect your accounts online.
-    </p>
   </div>
 
   <?php if ($score !== null) { ?>
-    <!-- Results Card -->
-    <div class="cyber-box rounded-xl p-6 sm:p-7 mb-8 text-center border-t-4 border-t-[#B6FF2E]">
-      <div class="w-16 h-16 mx-auto mb-3 rounded-2xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E] shadow-xl shadow-[#B6FF2E]/10">
-        <i data-lucide="<?php echo $score >= 8 ? 'award' : ($score >= 5 ? 'check-circle-2' : 'book-open'); ?>" class="w-8 h-8"></i>
-      </div>
-      <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">
-        You scored <span class="text-[#B6FF2E]"><?php echo $score; ?></span> out of <?php echo count($questions); ?>!
+    <div class="cyber-box rounded-xl p-6 sm:p-7 mb-8 text-center border-t-4 border-t-[#205C43]">
+      <h2 class="text-xl sm:text-2xl font-bold text-[#1C211E] mb-1">
+        You scored <span class="text-[#205C43]"><?php echo $score; ?></span> out of <?php echo count($questions); ?>!
       </h2>
-      <p class="text-xs sm:text-sm text-[#94A3B8] mb-6">
+      <p class="text-xs sm:text-sm text-[#5F665F] mb-6">
         <?php if ($score >= 8) { ?>
-          <span class="text-[#B6FF2E] font-semibold">Excellent!</span> You have very strong cyber awareness habits.
+          <span class="text-[#205C43] font-semibold">Excellent!</span> You have very strong cyber awareness habits.
         <?php } elseif ($score >= 5) { ?>
-          <span class="text-amber-400 font-semibold">Good job!</span> You know the basics, but there are a few areas to brush up on.
+          <span class="text-[#8A5A12] font-semibold">Good job!</span> You know the basics, but there are a few areas to brush up on.
         <?php } else { ?>
-          <span class="text-rose-400 font-semibold">Keep learning!</span> Check out our <a href="learn.php" class="text-[#B6FF2E] underline">Safety Tips</a> to learn how to stay protected.
+          <span class="text-[#B42318] font-semibold">Keep learning!</span> Check out our <a href="learn.php" class="text-[#205C43] underline">Safety Tips</a> to learn how to stay protected.
         <?php } ?>
       </p>
 
       <div class="flex items-center justify-center gap-3">
-        <a href="quiz.php" class="btn-green py-2 px-5 rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
+        <a href="quiz.php" class="btn-green py-2 px-5 rounded-lg text-xs font-bold flex items-center gap-1.5">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
           <span>Try Again</span>
         </a>
@@ -178,23 +170,22 @@ include "includes/header.php";
       </div>
     </div>
 
-    <!-- Review Answers -->
-    <h3 class="text-base font-bold text-white mb-4">Review Your Answers</h3>
+    <h3 class="text-base font-bold text-[#1C211E] mb-4">Review Your Answers</h3>
     <div class="space-y-3 mb-8">
       <?php foreach ($questions as $i => $q) { 
           $right = $answers[$i] == $q['correct'];
       ?>
-        <div class="cyber-box rounded-xl p-4 border-l-4 <?php echo $right ? 'border-l-[#B6FF2E]' : 'border-l-rose-500'; ?> text-xs sm:text-sm">
-          <p class="font-semibold text-white mb-2"><?php echo ($i + 1) . ". " . $q['q']; ?></p>
+        <div class="cyber-box rounded-xl p-4 border-l-4 <?php echo $right ? 'border-l-[#205C43]' : 'border-l-[#B42318]'; ?> text-xs sm:text-sm">
+          <p class="font-semibold text-[#1C211E] mb-2"><?php echo ($i + 1) . ". " . $q['q']; ?></p>
           
           <?php if (!$right) { ?>
-            <p class="text-rose-400 mb-1 flex items-center gap-1.5">
+            <p class="text-[#B42318] mb-1 flex items-center gap-1.5">
               <i data-lucide="x" class="w-3.5 h-3.5"></i>
               <span>Your answer: <?php echo $answers[$i] >= 0 ? htmlspecialchars($q['a'][$answers[$i]]) : "Not answered"; ?></span>
             </p>
           <?php } ?>
 
-          <p class="text-[#B6FF2E] font-medium flex items-center gap-1.5">
+          <p class="text-[#205C43] font-medium flex items-center gap-1.5">
             <i data-lucide="check" class="w-3.5 h-3.5"></i>
             <span>Correct answer: <?php echo htmlspecialchars($q['a'][$q['correct']]); ?></span>
           </p>
@@ -204,29 +195,28 @@ include "includes/header.php";
 
   <?php } else { ?>
 
-    <!-- Quiz Form -->
-    <div class="mb-4 flex items-center justify-between text-xs text-[#94A3B8]">
+    <div class="mb-4 flex items-center justify-between text-xs text-[#5F665F]">
       <span>Select one answer for each question:</span>
-      <span>Answered: <strong id="answeredCount" class="text-[#B6FF2E]">0</strong> / <?php echo count($questions); ?></span>
+      <span>Answered: <strong id="answeredCount" class="text-[#205C43]">0</strong> / <?php echo count($questions); ?></span>
     </div>
 
     <form method="post" id="quizForm" class="space-y-4">
       <?php foreach ($questions as $i => $q) { ?>
-        <div class="cyber-box rounded-xl p-5 border border-[#323743]">
-          <p class="font-bold text-white text-sm mb-3">
+        <div class="cyber-box rounded-xl p-5 border border-[#E4E1D8]">
+          <p class="font-bold text-[#1C211E] text-sm mb-3">
             <?php echo ($i + 1) . ". " . $q['q']; ?>
           </p>
 
           <div class="space-y-2 text-xs sm:text-sm">
             <?php foreach ($q['a'] as $j => $opt) { ?>
-              <label class="flex items-start gap-2.5 p-2.5 rounded-lg bg-[#181A20] border border-[#323743] hover:border-[#B6FF2E] cursor-pointer transition-colors">
+              <label class="flex items-start gap-2.5 p-2.5 rounded-lg bg-[#F6F5EF] border border-[#E4E1D8] hover:border-[#BDB9AE] cursor-pointer transition-colors">
                 <input 
                   type="radio" 
                   name="q<?php echo $i; ?>" 
                   value="<?php echo $j; ?>" 
-                  class="mt-1 accent-[#B6FF2E] shrink-0"
+                  class="mt-1 accent-[#205C43] shrink-0"
                 >
-                <span class="text-[#E2E8F0]"><?php echo $opt; ?></span>
+                <span class="text-[#1C211E]"><?php echo $opt; ?></span>
               </label>
             <?php } ?>
           </div>
@@ -234,7 +224,7 @@ include "includes/header.php";
       <?php } ?>
 
       <div class="pt-2 flex justify-end">
-        <button type="submit" name="submit" class="btn-green px-8 py-3 rounded-lg text-xs font-bold shadow-lg">
+        <button type="submit" name="submit" class="btn-green px-8 py-3 rounded-lg text-xs font-bold">
           Submit Quiz
         </button>
       </div>

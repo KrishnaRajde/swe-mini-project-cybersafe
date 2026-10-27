@@ -1,6 +1,6 @@
 <?php
-// CyberSafe - Phishing Detector Module (Lime Spark & Graphite Theme with Lucide SVG Icons)
 include "includes/db.php";
+include "includes/modules.php";
 check_login();
 
 $message = "";
@@ -59,6 +59,8 @@ if (isset($_POST['check'])) {
         } else {
             $result = "Likely Phishing";
         }
+
+        mark_module_complete($conn, (int) $_SESSION['user_id'], "phishing");
     }
 }
 
@@ -67,72 +69,64 @@ include "includes/header.php";
 ?>
 
 <div class="max-w-3xl mx-auto">
-  <!-- Header -->
   <div class="mb-6 text-center sm:text-left">
-    <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center justify-center sm:justify-start gap-2.5">
-      <div class="w-8 h-8 rounded-lg bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E]">
-        <i data-lucide="mail-warning" class="w-5 h-5"></i>
-      </div>
-      <span>Phishing Message <span class="text-[#B6FF2E]">Detector</span></span>
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#1C211E] mb-2 flex items-center justify-center sm:justify-start gap-2.5">
+      <span>Phishing Message Detector</span>
     </h1>
-    <p class="text-sm text-[#94A3B8]">
+    <p class="text-sm text-[#5F665F]">
       Got a weird email, SMS, or WhatsApp message? Paste it here to check for common scam warning signs.
     </p>
   </div>
 
-  <!-- Input Form -->
-  <div class="cyber-box rounded-xl p-5 sm:p-6 mb-6 border border-[#323743]">
+  <div class="cyber-box rounded-xl p-5 sm:p-6 mb-6 border border-[#E4E1D8]">
     <form method="post">
-      <label class="block text-xs font-semibold text-white mb-2">
+      <label class="block text-xs font-semibold text-[#1C211E] mb-2">
         Paste the suspicious message or email text below:
       </label>
       <textarea 
         name="message" 
         id="msgBox" 
         rows="6" 
-        class="w-full bg-[#181A20] border border-[#323743] focus:border-[#4B5563] rounded-lg p-3 text-sm text-white placeholder-[#64748B] focus:outline-none transition-colors"
+        class="w-full bg-[#F6F5EF] border border-[#E4E1D8] focus:border-[#BDB9AE] rounded-lg p-3 text-sm text-[#1C211E] placeholder-[#8A8F87] focus:outline-none transition-colors"
         placeholder="Example: Dear customer, your account will be blocked within 24 hours. Please click http://... to verify your KYC."
         required
       ><?php echo htmlspecialchars($message); ?></textarea>
 
-      <!-- Quick sample buttons -->
       <div class="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
-        <span class="text-[#94A3B8]">Try a sample:</span>
-        <button type="button" class="sample-btn px-2.5 py-1 rounded bg-[#181A20] text-[#E2E8F0] hover:text-[#B6FF2E] border border-[#323743] hover:border-[#B6FF2E] transition-colors" data-type="bank">
+        <span class="text-[#5F665F]">Try a sample:</span>
+        <button type="button" class="sample-btn px-2.5 py-1 rounded bg-[#F6F5EF] text-[#1C211E] hover:text-[#205C43] border border-[#E4E1D8] hover:border-[#BDB9AE] transition-colors" data-type="bank">
           Bank KYC Scam
         </button>
-        <button type="button" class="sample-btn px-2.5 py-1 rounded bg-[#181A20] text-[#E2E8F0] hover:text-[#B6FF2E] border border-[#323743] hover:border-[#B6FF2E] transition-colors" data-type="lottery">
+        <button type="button" class="sample-btn px-2.5 py-1 rounded bg-[#F6F5EF] text-[#1C211E] hover:text-[#205C43] border border-[#E4E1D8] hover:border-[#BDB9AE] transition-colors" data-type="lottery">
           Lottery Prize Scam
         </button>
-        <button type="button" class="sample-btn px-2.5 py-1 rounded bg-[#181A20] text-[#E2E8F0] hover:text-[#B6FF2E] border border-[#323743] hover:border-[#B6FF2E] transition-colors" data-type="normal">
+        <button type="button" class="sample-btn px-2.5 py-1 rounded bg-[#F6F5EF] text-[#1C211E] hover:text-[#205C43] border border-[#E4E1D8] hover:border-[#BDB9AE] transition-colors" data-type="normal">
           Normal Message
         </button>
       </div>
 
       <div class="mt-5 flex justify-end">
-        <button type="submit" name="check" class="btn-green px-6 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2 shadow-lg">
+        <button type="submit" name="check" class="btn-green px-6 py-2.5 rounded-lg text-xs font-bold flex items-center gap-2">
           <span>Check Message</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </button>
       </div>
     </form>
   </div>
 
-  <!-- Results Section -->
   <?php if ($result != "") { 
-      $cardColor = "border-[#B6FF2E]/60 bg-[#B6FF2E]/10";
-      $textColor = "text-[#B6FF2E]";
+      $cardColor = "border-[#C9DDD0] bg-[#E6EFE9]";
+      $textColor = "text-[#205C43]";
       $lucideIcon = "check-circle-2";
       $summary = "We didn't find any common phishing keywords or red flags.";
 
       if ($result == "Suspicious") {
-          $cardColor = "border-amber-500/60 bg-amber-950/30";
-          $textColor = "text-amber-400";
+          $cardColor = "border-[#EBD5AC] bg-[#FBF4E6]";
+          $textColor = "text-[#8A5A12]";
           $lucideIcon = "alert-triangle";
           $summary = "Be careful! This message contains some suspicious signs often used in scams.";
       } elseif ($result == "Likely Phishing") {
-          $cardColor = "border-rose-500/60 bg-rose-950/30";
-          $textColor = "text-rose-400";
+          $cardColor = "border-[#F0C8C2] bg-[#FDF1EF]";
+          $textColor = "text-[#B42318]";
           $lucideIcon = "alert-circle";
           $summary = "Warning! This message has multiple red flags commonly seen in phishing scams. Do not click links or share details!";
       }
@@ -144,15 +138,15 @@ include "includes/header.php";
           Result: <?php echo $result; ?>
         </h3>
       </div>
-      <p class="text-xs text-[#E2E8F0] mb-3"><?php echo $summary; ?></p>
+      <p class="text-xs text-[#1C211E] mb-3"><?php echo $summary; ?></p>
 
       <?php if (count($flags) > 0) { ?>
-        <div class="bg-[#181A20] rounded-lg p-3.5 border border-[#323743] text-xs">
-          <strong class="text-white block mb-1.5">Warning signs detected:</strong>
-          <ul class="space-y-1.5 text-[#E2E8F0]">
+        <div class="bg-[#F6F5EF] rounded-lg p-3.5 border border-[#E4E1D8] text-xs">
+          <strong class="text-[#1C211E] block mb-1.5">Warning signs detected:</strong>
+          <ul class="space-y-1.5 text-[#1C211E]">
             <?php foreach ($flags as $f) { ?>
               <li class="flex items-start gap-2">
-                <span class="text-rose-400 font-bold">&bull;</span>
+                <span class="text-[#B42318] font-bold">&bull;</span>
                 <span><?php echo htmlspecialchars($f); ?></span>
               </li>
             <?php } ?>
@@ -162,13 +156,10 @@ include "includes/header.php";
     </div>
   <?php } ?>
 
-  <!-- Helpful advice -->
-  <div class="cyber-box rounded-xl p-5 text-xs text-[#E2E8F0] border border-[#323743]">
-    <h4 class="font-bold text-[#B6FF2E] mb-2 text-sm flex items-center gap-2">
-      <i data-lucide="lightbulb" class="w-4 h-4 text-[#B6FF2E]"></i>
-      <span>Quick Safety Tips</span>
+  <div class="cyber-box rounded-xl p-5 text-xs text-[#1C211E] border border-[#E4E1D8]">
+    <h4 class="font-bold text-[#205C43] mb-2 text-sm flex items-center gap-2"> <span>Quick Safety Tips</span>
     </h4>
-    <ul class="space-y-1 text-[#94A3B8]">
+    <ul class="space-y-1 text-[#5F665F]">
       <li>&bull; Never share OTPs, PINs, or passwords with anyone over call or SMS.</li>
       <li>&bull; Check the sender's email address closely to make sure it's genuine.</li>
       <li>&bull; If an email looks urgent, open the official app or website directly instead of clicking links.</li>

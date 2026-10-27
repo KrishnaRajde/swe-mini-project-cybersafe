@@ -46,88 +46,85 @@ include "includes/header.php";
 <div class="max-w-md mx-auto my-8">
   <div class="cyber-box rounded-2xl p-6 sm:p-8">
     <div class="text-center mb-6">
-      <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E] shadow-lg shadow-[#B6FF2E]/10">
-        <i data-lucide="user-plus" class="w-7 h-7"></i>
-      </div>
-      <h1 class="text-2xl font-bold text-white">Create an <span class="text-[#B6FF2E]">Account</span></h1>
-      <p class="text-xs text-[#94A3B8] mt-1">Join CyberSafe to save your test scores and track your habits</p>
+      <h1 class="text-2xl font-bold text-[#1C211E]">Create an Account</h1>
+      <p class="text-xs text-[#5F665F] mt-1">Join CyberSafe to save your test scores and track your habits</p>
     </div>
 
     <?php if ($error) { ?>
-      <div class="p-3 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300 mb-4 text-xs flex items-center gap-2">
-        <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 text-rose-400"></i>
+      <div class="p-3 rounded-lg bg-[#FDF1EF] border border-[#F0C8C2] text-[#B42318] mb-4 text-xs flex items-center gap-2">
+        <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 text-[#B42318]"></i>
         <span><?php echo htmlspecialchars($error); ?></span>
       </div>
     <?php } ?>
 
     <?php if ($success) { ?>
-      <div class="p-3 rounded-lg bg-[#B6FF2E]/15 border border-[#B6FF2E]/40 text-[#B6FF2E] mb-4 text-xs flex items-center justify-between gap-2">
+      <div class="p-3 rounded-lg bg-[#E6EFE9] border border-[#C9DDD0] text-[#205C43] mb-4 text-xs flex items-center justify-between gap-2">
         <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i><?php echo htmlspecialchars($success); ?></span>
-        <a href="login.php" class="underline font-bold text-[#B6FF2E]">Sign In</a>
+        <a href="login.php" class="underline font-bold text-[#205C43]">Sign In</a>
       </div>
     <?php } ?>
 
     <form method="post" class="space-y-3.5 text-xs">
       <div>
-        <label class="block text-[#E2E8F0] font-semibold mb-1">Your Name</label>
+        <label class="block text-[#1C211E] font-semibold mb-1">Your Name</label>
         <input 
           type="text" 
           name="name" 
           required 
-          class="w-full bg-[#181A20] border border-[#323743] focus:border-[#4B5563] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] focus:outline-none transition-colors"
-          placeholder="e.g. John Doe"
+          class="w-full bg-[#F6F5EF] border border-[#E4E1D8] focus:border-[#BDB9AE] rounded-lg px-3.5 py-2.5 text-sm text-[#1C211E] placeholder-[#8A8F87] focus:outline-none transition-colors"
+          placeholder="Golu Firewall"
           value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>"
         >
       </div>
 
       <div>
-        <label class="block text-[#E2E8F0] font-semibold mb-1">Email Address</label>
+        <label class="block text-[#1C211E] font-semibold mb-1">Email Address</label>
         <input 
           type="email" 
           name="email" 
           required 
-          class="w-full bg-[#181A20] border border-[#323743] focus:border-[#4B5563] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] focus:outline-none transition-colors"
-          placeholder="john@example.com"
+          class="w-full bg-[#F6F5EF] border border-[#E4E1D8] focus:border-[#BDB9AE] rounded-lg px-3.5 py-2.5 text-sm text-[#1C211E] placeholder-[#8A8F87] focus:outline-none transition-colors"
+          placeholder="goluFirewall@gmail.com"
           value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
         >
       </div>
 
       <div>
-        <label class="block text-[#E2E8F0] font-semibold mb-1">Password</label>
+        <label class="block text-[#1C211E] font-semibold mb-1">Password</label>
         <div class="relative">
           <input 
             type="password" 
             name="password" 
             id="regPass" 
             required 
-            class="w-full bg-[#181A20] border border-[#323743] focus:border-[#4B5563] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] focus:outline-none transition-colors"
+            class="w-full bg-[#F6F5EF] border border-[#E4E1D8] focus:border-[#BDB9AE] rounded-lg px-3.5 py-2.5 text-sm text-[#1C211E] placeholder-[#8A8F87] focus:outline-none transition-colors"
             placeholder="At least 6 characters"
           >
-          <button type="button" id="toggleRegVis" class="absolute right-3 top-3 text-[#94A3B8] hover:text-[#B6FF2E] text-xs">
-            <i class="fa-solid fa-eye"></i>
+          <button type="button" id="toggleRegVis" class="absolute right-3 top-3 text-[#5F665F] hover:text-[#205C43] text-xs">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
       </div>
 
       <div>
-        <label class="block text-[#E2E8F0] font-semibold mb-1">Confirm Password</label>
+        <label class="block text-[#1C211E] font-semibold mb-1">Confirm Password</label>
         <input 
           type="password" 
           name="confirm" 
           required 
-          class="w-full bg-[#181A20] border border-[#323743] focus:border-[#4B5563] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] focus:outline-none transition-colors"
+          class="w-full bg-[#F6F5EF] border border-[#E4E1D8] focus:border-[#BDB9AE] rounded-lg px-3.5 py-2.5 text-sm text-[#1C211E] placeholder-[#8A8F87] focus:outline-none transition-colors"
           placeholder="Re-enter password"
         >
       </div>
 
-      <button type="submit" name="register" class="btn-green w-full py-2.5 rounded-lg text-xs font-bold mt-2 shadow-lg">
+      <button type="submit" name="register" class="btn-green w-full py-2.5 rounded-lg text-xs font-bold mt-2">
         Create Account
       </button>
     </form>
 
-    <div class="mt-6 pt-4 border-t border-[#323743] text-center text-xs text-[#94A3B8]">
+    <div class="mt-6 pt-4 border-t border-[#E4E1D8] text-center text-xs text-[#5F665F]">
       Already have an account? 
-      <a href="login.php" class="text-[#B6FF2E] font-semibold hover:underline ml-1">Log in here</a>
+      <a href="login.php" class="text-[#205C43] font-semibold hover:underline ml-1">Log in here</a>
     </div>
   </div>
 </div>
@@ -140,7 +137,7 @@ include "includes/header.php";
     toggleBtn.addEventListener('click', function() {
       vis = !vis;
       passInput.type = vis ? 'text' : 'password';
-      toggleBtn.innerHTML = vis ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+      toggleBtn.innerHTML = vis ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="M2 2l20 20"/></svg>' : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
     });
   }
 </script>

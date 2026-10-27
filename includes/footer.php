@@ -1,22 +1,11 @@
 <?php
-// CyberSafe - Footer File (Lime Spark & Graphite Theme)
 ?>
 </main>
 
-<footer class="bg-[#23262F] border-t border-[#323743] py-6 text-center text-xs text-[#94A3B8] mt-auto">
-  <div class="max-w-6xl mx-auto px-4">
-    <p class="font-medium text-[#E2E8F0]">
-      <span class="text-[#B6FF2E] font-bold">CyberSafe</span> &bull; Cyber Security Awareness Website | SWE Mini Project
-    </p>
-  </div>
-</footer>
-
-<!-- GSAP and ScrollTrigger CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
 
 <script>
-  // Mobile navigation menu toggle
   var navToggle = document.getElementById('navToggle');
   var navDropdown = document.getElementById('navDropdown');
   if (navToggle && navDropdown) {
@@ -24,7 +13,6 @@
       navDropdown.classList.toggle('hidden');
     });
 
-    // Close mobile menu when any nav link is tapped
     var mobileLinks = document.querySelectorAll('.mobile-nav-link');
     mobileLinks.forEach(function(link) {
       link.addEventListener('click', function() {
@@ -33,11 +21,9 @@
     });
   }
 
-  // GSAP ScrollTrigger: Scrollspy tab highlight & animations
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    // List of sections and their corresponding navbar tab ID
     var navSections = [
       { sectionId: 'section-home', navId: 'nav-home' },
       { sectionId: 'section-safety', navId: 'nav-safety' },
@@ -50,18 +36,17 @@
       var allTabs = document.querySelectorAll('.nav-tab');
       allTabs.forEach(function(tab) {
         tab.classList.remove('active');
-        tab.classList.remove('text-[#B6FF2E]', 'font-bold', 'border-b-2', 'border-[#B6FF2E]');
-        tab.classList.add('text-[#94A3B8]');
+        tab.classList.remove('text-[#205C43]', 'font-bold', 'border-b-2', 'border-[#205C43]');
+        tab.classList.add('text-[#5F665F]');
       });
 
       var activeTab = document.getElementById(navId);
       if (activeTab) {
-        activeTab.classList.remove('text-[#94A3B8]');
+        activeTab.classList.remove('text-[#5F665F]');
         activeTab.classList.add('active');
       }
     }
 
-    // Attach ScrollTrigger to each section that exists on the current page
     navSections.forEach(function(item) {
       var sec = document.getElementById(item.sectionId);
       if (sec) {
@@ -79,7 +64,6 @@
       }
     });
 
-    // Handle top of page edge case
     window.addEventListener('scroll', function() {
       if (window.scrollY < 80) {
         var homeEl = document.getElementById('section-home');
@@ -89,7 +73,6 @@
       }
     });
 
-    // Smooth card entrance animations
     gsap.utils.toArray('.cyber-box').forEach(function(card) {
       gsap.from(card, {
         scrollTrigger: {
@@ -105,7 +88,6 @@
     });
   }
 
-  // Initialize Lucide SVG Icons
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }

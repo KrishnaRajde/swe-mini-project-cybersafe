@@ -3,10 +3,11 @@
 A clean, beginner-friendly web application for Diploma Semester 3 Computer / IT Engineering mini-project.
 
 ## Technologies Used
-- **Frontend:** HTML5, Tailwind CSS (CDN), FontAwesome Icons, Custom CSS (`style.css`), GSAP ScrollTrigger
+- **Frontend:** HTML5, Tailwind CSS, Lucide Icons, Custom CSS (`style.css`), GSAP ScrollTrigger
 - **Backend:** PHP (Procedural style, beginner-friendly)
 - **Database:** MySQL / MariaDB (Single `users` table)
-- **Libraries:** html2canvas (CDN for ID card PNG download)
+- **Libraries:** html2canvas (ID card PNG download)
+- All libraries and fonts are saved inside the `assets/` folder, so the website works **without internet**.
 
 ## Features & Modules
 1. **User Authentication:**
@@ -38,46 +39,26 @@ A clean, beginner-friendly web application for Diploma Semester 3 Computer / IT 
    - Displays styled CyberSafe Certified ID with zero-padded ID number (`CS-XXXXX`), quiz score, issue date, and certified badge.
    - One-click PNG download (html2canvas) and print support (`window.print()`).
 
-## Database Setup
-Import `database.sql` into phpMyAdmin or run:
-```sql
-CREATE DATABASE IF NOT EXISTS cybersafe;
-USE cybersafe;
+## How to Run on Any Laptop / PC (Windows, Mac or Linux)
 
-CREATE TABLE IF NOT EXISTS users (
-  user_id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  quiz_score INT DEFAULT 0,
-  photo VARCHAR(255) NULL
-);
-```
+1. Install **XAMPP** (or MAMP / WAMP).
+2. Copy the project folder into the `htdocs` folder:
+   - Windows: `C:\xampp\htdocs\swe-mini-project`
+   - Mac: `/Applications/XAMPP/xamppfiles/htdocs/swe-mini-project`
+3. Open the XAMPP Control Panel and start **Apache** and **MySQL**.
+4. Open `http://localhost/swe-mini-project/` in the browser.
 
-## macOS Setup Guide (XAMPP / MAMP / PHP)
+That's it. You do **not** need to import the database by hand. The first time the website opens, `includes/db.php` automatically:
+- finds MySQL on port 3306, 3307 or 8889 (MAMP),
+- creates the `cybersafe` database and the `users` table if they don't exist,
+- adds any missing columns to an older `users` table.
 
-### 1. Where to place the project on Mac
-- **XAMPP for Mac:** Copy the `cyber` folder to:  
-  `/Applications/XAMPP/xamppfiles/htdocs/cyber`
-- **MAMP for Mac:** Copy the `cyber` folder to:  
-  `/Applications/MAMP/htdocs/cyber`
+(`database.sql` is still included if you want to create the database yourself from phpMyAdmin.)
 
-### 2. Database Connection & Port Configuration
-- Database settings and port are configured in [`includes/db.php`](file:///d:/xampp/htdocs/cyber/includes/db.php).
-- It is currently set to port **3307**:
-  ```php
-  $port = 3307; // Change to 3306 for macOS XAMPP default, or 8889 for MAMP
-  ```
-- If you move the project to Mac and your XAMPP MySQL uses default port **3306**, simply change `$port = 3306;` in `includes/db.php`.
-- Import `database.sql` into phpMyAdmin (`http://localhost/phpmyadmin`) or run the SQL script above.
-
-### 3. Folder Permissions for Photo Uploads on Mac
-On macOS XAMPP, Apache runs under the `daemon` or `_www` user account. Since your Mac user owns the project folder, Apache needs write permission to save photos into `uploads/`.
-
-Open **Terminal** on your Mac, navigate to your project directory, and run:
+### Photo uploads on Mac only
+On Windows, photo upload works straight away. On a Mac, Apache may not be allowed to write into the `uploads` folder. If the Upload Photo page shows a permission message, open Terminal and run:
 ```bash
-cd /Applications/XAMPP/xamppfiles/htdocs/cyber
+cd /Applications/XAMPP/xamppfiles/htdocs/swe-mini-project
 chmod -R 777 uploads
 ```
-*(Tip: `upload_photo.php` now includes automatic permission detection, client-side auto-resizing for high-resolution Mac Retina screenshots/photos, and a one-click copy button for this command).*
 
